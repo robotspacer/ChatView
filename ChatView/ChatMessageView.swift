@@ -12,11 +12,17 @@ struct ChatMessageView: View {
 
 	private var message: ChatMessage
 
-	init(_ message: ChatMessage) {
+	@Binding private var presenter: ChatPresenter
+
+	init(_ message: ChatMessage, presenter: Binding<ChatPresenter>) {
 		self.message = message
+		_presenter = presenter
 	}
 
 	var body: some View {
+
+		let readDate = presenter.readMarker?.date ?? .distantPast
+
 		HStack(alignment: .center) {
 			VStack(alignment: .leading) {
 				Text(verbatim: message.chatter)
@@ -29,6 +35,8 @@ struct ChatMessageView: View {
 		.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
 		.listRowInsets(EdgeInsets())
 		#endif
+		.opacity(message.date <= readDate ? 0.5 : 1)
+
 	}
 
 }

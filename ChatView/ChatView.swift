@@ -40,10 +40,8 @@ struct ChatView: View {
 
 	@ViewBuilder
 	func messageRow(_ message: ChatMessage) -> some View {
-		let readDate = presenter.readMarker?.date ?? .distantPast
-		ChatMessageView(message)
+		ChatMessageView(message, presenter: $presenter)
 			.trackVisibility(marker: message.marker, presenter: presenter)
-			.opacity(message.date <= readDate ? 0.5 : 1)
 	}
 
 	@ViewBuilder
